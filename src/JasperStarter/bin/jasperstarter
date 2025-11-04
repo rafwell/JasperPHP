@@ -23,4 +23,14 @@ else
 fi
 
 #SCRIPTPATH="$(dirname $0)"
-java -jar "$HOME_FOLDER/lib/jasperstarter.jar" "$@"
+
+CLASSPATH=""
+for jar in "$HOME_FOLDER"/lib/*.jar; do
+  if [ -z "$CLASSPATH" ]; then
+    CLASSPATH="$jar"
+  else
+    CLASSPATH="$CLASSPATH:$jar"
+  fi
+done
+
+exec java -cp "$CLASSPATH" de.cenote.jasperstarter.App "$@"
